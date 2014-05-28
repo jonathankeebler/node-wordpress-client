@@ -1,15 +1,15 @@
 WordPress XML-RPC client.
 
 ## Features
-* Batching of requests.
+* Automated batching of RPC calls.
 
 ## Methods
+Instance methods resemble WordPress functions used in PHP development.
 
-* getPost
-* getPosts
-* createPost
-* uploadFile
-* uploadFile
+* client.get_post()
+* client.get_option()
+* client.insert_post()
+* client.upload_file()
 
 ## Usage
 
