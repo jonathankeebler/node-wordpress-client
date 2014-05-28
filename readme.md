@@ -28,7 +28,7 @@ client.uploadFile({
   'bits': require( 'fs' ).readFileSync( './path/to/file.jpeg' )
 });
 
-```javascript
+```
 
 ## Notes
 
