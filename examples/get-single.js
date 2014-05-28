@@ -3,7 +3,7 @@ var client = require( '../' ).create({
   url: process.env.WORDPRESS_CLIENT_URL,
   username: process.env.WORDPRESS_CLIENT_USERNAME,
   password: process.env.WORDPRESS_CLIENT_PASSWORD
-}).getPosts( { type: 'post' }, havePosts );
+}).getPosts( { type: 'property' }, havePosts );
 
 /**
  * Post Query Callback
