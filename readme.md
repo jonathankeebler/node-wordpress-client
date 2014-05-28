@@ -1,15 +1,36 @@
-# node-wordpress
+WordPress XML-RPC client.
 
-A node.js JavaScript client for working with WordPress.
+## Features
+* Batching of requests.
 
-Support this project by [donating on Gittip](https://www.gittip.com/scottgonzalez/).
+## Methods
 
-Requires WordPress 3.4 or newer (uses the [WordPress XML-RPC API](http://codex.wordpress.org/XML-RPC_WordPress_API)).
+* getPost
+* getPosts
+* createPost
+* uploadFile
+* uploadFile
 
-## License
+## Usage
 
-Copyright 2012 Scott González. Licensed under the MIT license.
+```javascript
 
----
+// Load module and create an instance.
+var client = require( 'wordpress-client' ).create({
+  url: 'http://my-site.com/xmlrpc.php',
+  username: 'admin',
+  password: 'secret-password'
+});
 
-Support this project by [donating on Gittip](https://www.gittip.com/scottgonzalez/).
+// Uplaod File
+client.uploadFile({
+  'name': 'My File',
+  'bits': require( 'fs' ).readFileSync( './path/to/file.jpeg' )
+});
+
+```javascript
+
+## Notes
+
+* All callbacks are called in context of client's instance.
+* Authenticated vs non-authenticated calls are automatically selected based on type of endpoint.
