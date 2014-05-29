@@ -5,10 +5,12 @@ var client = require( '../' ).create({
   password: process.env.WORDPRESS_CLIENT_PASSWORD
 });
 
-// Upload a File.
 client.uploadFile({
-  name: 'Sample File',
-  bits: require( 'fs' ).readFileSync( './path/to/file.jpeg' )
+  name: 'sample-cat.jpg',
+  type: 'image/jpeg',
+  //overwrite: false,
+  //post_id: false,
+  bits: require( 'fs' ).readFileSync( './fixtures/sample-cat.jpg' )
 }, fileUploaded );
 
 /**
@@ -19,7 +21,7 @@ client.uploadFile({
  */
 function fileUploaded( error, response ) {
   this.debug( 'File Uploaded' );
-  console.log( require( 'util' ).inspect( response, { showHidden: false, colors: true, depth: 4 } ) );
+  console.log( require( 'util' ).inspect( error || response, { showHidden: false, colors: true, depth: 4 } ) );
 }
 
 // @export
