@@ -4,7 +4,6 @@ var client = module.exports = require( '../' ).create({
   password: process.env.WORDPRESS_CLIENT_PASSWORD
 });
 
-
 var _items = [
   { methodName: 'wp.getMediaItem', params: [ client.get( 'blog' ), client.get( "username" ), client.get( "password" ), 251 ] },
   { methodName: 'wp.getMediaItem', params: [ client.get( 'blog' ), client.get( "username" ), client.get( "password" ), 250 ] }
