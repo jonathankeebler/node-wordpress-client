@@ -1,7 +1,7 @@
 {
   "name": "wordpress-client",
   "description": "WordPress XML-RPC client.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/potanin/node-wordpress-client",
   "author": {
     "name": "Andy Potanin",
