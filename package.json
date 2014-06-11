@@ -58,7 +58,8 @@
     "object-settings": "~0.1.2",
     "debug": "~0.8.1",
     "lodash": "~2.4.1",
-    "deep-extend": "~0.2.10"
+    "deep-extend": "~0.2.10",
+    "mime": "~1.2.11"
   },
   "readme": "WordPress XML-RPC client.\n\n## Features\n* Automated batching of RPC calls.\n\n## Methods\nInstance methods resemble WordPress functions used in PHP development.\n\n* client.get_post()\n* client.get_option()\n* client.insert_post()\n* client.upload_file()\n\n## Usage\n\n```javascript\n\n// Load module and create an instance.\nvar client = require( 'wordpress-client' ).create({\n  url: 'http://my-site.com/xmlrpc.php',\n  username: 'admin',\n  password: 'secret-password'\n});\n\n// Uplaod File\nclient.uploadFile({\n  'name': 'My File',\n  'bits': require( 'fs' ).readFileSync( './path/to/file.jpeg' )\n});\n\n```\n\n## Notes\n\n* All callbacks are called in context of client's instance.\n* Authenticated vs non-authenticated calls are automatically selected based on type of endpoint.",
   "readmeFilename": "readme.md",
