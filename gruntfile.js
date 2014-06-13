@@ -73,6 +73,8 @@ module.exports = function( grunt ) {
   grunt.registerTask( 'default', [ 'markdown', 'mochaTest:basic' ] );
 
   // Run Basic tests.
+  grunt.registerTask( 'test',[ 'mochaTest:basic' ] );
+
   grunt.registerTask( 'test:basic', [ 'mochaTest:basic' ] );
 
   // Run Adavnced tests.
