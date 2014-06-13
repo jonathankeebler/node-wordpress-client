@@ -45,10 +45,10 @@ module.exports = function( grunt ) {
         ui: 'exports'
       },
       basic: {
-        src: [ 'test/basic-*.js' ]
+        src: [ 'static/testsbasic-*.js' ]
       },
       advanced: {
-        src: [ 'test/advanced-*.js' ]
+        src: [ 'static/testsadvanced-*.js' ]
       }
     },
 

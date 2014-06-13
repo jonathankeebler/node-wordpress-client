@@ -39,7 +39,9 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-markdown": "~0.6.1",
     "grunt-mocha-test": "~0.10.2",
-    "Faker": "~0.7.2"
+    "Faker": "~0.7.2",
+    "grunt-notify": "~0.3.0",
+    "grunt-readme-generator": "~0.3.41"
   },
   "peerDependencies": {},
   "keywords": [
@@ -61,7 +63,7 @@
     "deep-extend": "~0.2.10",
     "mime": "~1.2.11"
   },
-  "readme": "WordPress XML-RPC client.\n\n## Features\n* Automated batching of RPC calls.\n\n## Methods\nInstance methods resemble WordPress functions used in PHP development.\n\n* client.get_post()\n* client.get_option()\n* client.insert_post()\n* client.upload_file()\n\n## Usage\n\n```javascript\n\n// Load module and create an instance.\nvar client = require( 'wordpress-client' ).create({\n  url: 'http://my-site.com/xmlrpc.php',\n  username: 'admin',\n  password: 'secret-password'\n});\n\n// Uplaod File\nclient.uploadFile({\n  'name': 'My File',\n  'bits': require( 'fs' ).readFileSync( './path/to/file.jpeg' )\n});\n\n```\n\n## Notes\n\n* All callbacks are called in context of client's instance.\n* Authenticated vs non-authenticated calls are automatically selected based on type of endpoint.",
+  "readme": "WordPress XML-RPC client.\n\n## Features\n* Automated batching of RPC calls.\n\n## Methods\nInstance methods resemble WordPress functions used in PHP development.\n\n* client.getPost()\n* client.getOption()\n* client.insertPost()\n* client.uploadFile()\n\n## Usage\n\n```javascript\n\n// Load module and create an instance.\nvar client = require( 'wordpress-client' ).create({\n  url: 'http://my-site.com/xmlrpc.php',\n  username: 'admin',\n  password: 'secret-password'\n});\n\n// Uplaod File\nclient.uploadFile({\n  'name': 'My File',\n  'bits': require( 'fs' ).readFileSync( './path/to/file.jpeg' )\n});\n\n```\n\n## Notes\n\n* All callbacks are called in context of client's instance.\n* Authenticated vs non-authenticated calls are automatically selected based on type of endpoint.",
   "readmeFilename": "readme.md",
   "_id": "wordpress-client@0.2.0",
   "dist": {

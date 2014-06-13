@@ -1,8 +1,8 @@
 // Get Posts, Taxonomies and Blogs
 var client = require( '../' ).create({
-  url: process.env.WORDPRESS_CLIENT_URL,
-  username: process.env.WORDPRESS_CLIENT_USERNAME,
-  password: process.env.WORDPRESS_CLIENT_PASSWORD
+  url: process.env.WORDPRESS_URL,
+  username: process.env.WORDPRESS_USERNAME,
+  password: process.env.WORDPRESS_PASSWORD
 });
 
 // Get File information by attachment ID.

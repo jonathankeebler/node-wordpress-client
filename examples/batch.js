@@ -4,9 +4,9 @@
  * @type {*|Suite}
  */
 var client = module.exports = require( '../' ).create({
-  url: process.env.WORDPRESS_CLIENT_URL,
-  username: process.env.WORDPRESS_CLIENT_USERNAME,
-  password: process.env.WORDPRESS_CLIENT_PASSWORD
+  url: process.env.WORDPRESS_URL,
+  username: process.env.WORDPRESS_USERNAME,
+  password: process.env.WORDPRESS_PASSWORD
 });
 
 var _items = [
