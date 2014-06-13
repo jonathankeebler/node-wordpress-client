@@ -3,6 +3,13 @@
   "description": "WordPress XML-RPC client.",
   "version": "0.2.0",
   "homepage": "https://github.com/potanin/node-wordpress-client",
+  "directories": {
+    "doc": "static/codex",
+    "test": "static/tests",
+    "bin": "bin",
+    "lib": "lib",
+    "tasks": "lib/tasks"
+  },
   "author": {
     "name": "Andy Potanin",
     "email": "andy.potanin@usabilitydynamics.com"
@@ -43,15 +50,9 @@
     "grunt-notify": "~0.3.0",
     "grunt-readme-generator": "~0.3.41"
   },
-  "peerDependencies": {},
   "keywords": [
     "wordpress"
   ],
-  "tempDependencies": {
-    "wordpress-rpc": "~0.1.1",
-    "wp-util": "~0.1.2",
-    "grunt-wordpress": "~1.0.7"
-  },
   "dependencies": {
     "async": "~0.2.10",
     "findup-sync": "~0.1.3",
@@ -61,14 +62,8 @@
     "debug": "~0.8.1",
     "lodash": "~2.4.1",
     "deep-extend": "~0.2.10",
-    "mime": "~1.2.11"
+    "mime": "~1.2.11",
+    "load-grunt-tasks": "~0.5.0"
   },
-  "readme": "WordPress XML-RPC client.\n\n## Features\n* Automated batching of RPC calls.\n\n## Methods\nInstance methods resemble WordPress functions used in PHP development.\n\n* client.getPost()\n* client.getOption()\n* client.insertPost()\n* client.uploadFile()\n\n## Usage\n\n```javascript\n\n// Load module and create an instance.\nvar client = require( 'wordpress-client' ).create({\n  url: 'http://my-site.com/xmlrpc.php',\n  username: 'admin',\n  password: 'secret-password'\n});\n\n// Uplaod File\nclient.uploadFile({\n  'name': 'My File',\n  'bits': require( 'fs' ).readFileSync( './path/to/file.jpeg' )\n});\n\n```\n\n## Notes\n\n* All callbacks are called in context of client's instance.\n* Authenticated vs non-authenticated calls are automatically selected based on type of endpoint.",
-  "readmeFilename": "readme.md",
-  "_id": "wordpress-client@0.2.0",
-  "dist": {
-    "shasum": "590118a032749865128348ed7fbf9beb631082bc"
-  },
-  "_resolved": "git://github.com/UsabilityDynamics/node-wordpress-client#6a395fb5b6cf2c4ea4eb1ea5ad1a247f3b7f8fa7",
-  "_from": "wordpress-client@git://github.com/UsabilityDynamics/node-wordpress-client"
+  "readmeFilename": "readme.md"
 }
