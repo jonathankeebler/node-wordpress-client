@@ -5,9 +5,9 @@ module.exports = {
     var wordpress = require( 'wordpress' );
 
     this.client = new wordpress.Client({
-      url: 'http://imperialrealestategroup.dev/vendor/wordpress/core/xmlrpc.php',
-      username: 'andy.potanin@usabilitydynamics.com',
-      password: 'ISM0Rules',
+      url: 'http://ud-dev.com/ci/wp-site',
+      username: 'rpc@usabilitydynamics.com',
+      password: '0Kciwwm6PQolQDKf',
       blogId: 10
     });
 
