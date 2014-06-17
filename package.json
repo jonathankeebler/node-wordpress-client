@@ -1,14 +1,13 @@
 {
   "name": "wordpress-client",
   "description": "WordPress XML-RPC client.",
-  "version": "0.2.0",
-  "homepage": "https://github.com/potanin/node-wordpress-client",
+  "version": "0.2.1",
+  "homepage": "https://github.com/UsabilityDynamics/node-wordpress-client",
   "directories": {
-    "doc": "static/codex",
-    "test": "static/tests",
+    "doc": "docs",
+    "test": "test",
     "bin": "bin",
-    "lib": "lib",
-    "tasks": "lib/tasks"
+    "lib": "lib"
   },
   "author": {
     "name": "Andy Potanin",
@@ -16,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/potanin/node-wordpress-client.git"
+    "url": "git://github.com/UsabilityDynamics/node-wordpress-client.git"
   },
   "bugs": {
-    "url": "https://github.com/potanin/node-wordpress-client/issues"
+    "url": "https://github.com/UsabilityDynamics/node-wordpress-client/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/potanin/node-wordpress-client/blob/master/LICENSE-MIT"
+      "url": "https://github.com/UsabilityDynamics/node-wordpress-client/blob/master/LICENSE-MIT"
     }
   ],
   "main": "lib/wordpress-client.js",
@@ -32,27 +31,38 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt",
+    "ci": "grunt ci"
+  },
+  "config": {
+    "travis-cov": {
+      "threshold": 100
+    }
   },
   "devDependencies": {
     "request": "~2.27.0",
     "should": "~3.3.2",
     "mocha": "~1.19.0",
-    "load-grunt-tasks": "~0.4.0",
+    "mocha-lcov-reporter": "git://github.com/StevenLooman/mocha-lcov-reporter.git",
+    "Faker": "~0.7.2",
     "grunt": "~0.4.5",
+    "load-grunt-tasks": "~0.4.0",
     "grunt-contrib-symlink": "~0.3.0",
     "grunt-contrib-yuidoc": "~0.5.2",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
     "grunt-markdown": "~0.6.1",
     "grunt-mocha-test": "~0.10.2",
-    "Faker": "~0.7.2",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-readme-generator": "~0.3.41",
     "grunt-notify": "~0.3.0",
-    "grunt-readme-generator": "~0.3.41"
+    "grunt-blanket": "~0.0.8",
+    "grunt-coveralls": "~0.3.0",
+    "travis-cov": "~0.2.5",
+    "cover-child-process": "~0.1.5",
+    "grunt-env": "~0.4.1"
   },
-  "keywords": [
-    "wordpress"
-  ],
   "dependencies": {
     "async": "~0.2.10",
     "findup-sync": "~0.1.3",
@@ -63,7 +73,12 @@
     "lodash": "~2.4.1",
     "deep-extend": "~0.2.10",
     "mime": "~1.2.11",
-    "load-grunt-tasks": "~0.5.0"
+    "load-grunt-tasks": "~0.5.0",
+    "hooker": "~0.2.3",
+    "fs-extra": "~0.9.1"
   },
+  "keywords": [
+    "wordpress"
+  ],
   "readmeFilename": "readme.md"
 }

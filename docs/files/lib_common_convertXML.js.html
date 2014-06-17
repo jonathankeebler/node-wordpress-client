@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>lib/common/convertXML.js - wordpress-client</title>
+    <title>lib\common\convertXML.js - wordpress-client</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1.0</em>
+            <em>API Docs for: 0.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -80,78 +80,78 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: lib/common/convertXML.js</h1>
+                        <h1 class="file-heading">File: lib\common\convertXML.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
 /**
  *
- *
+ * @constructor
  * @source wordpress-rpc/lib/convertXML.js
- * @returns {convert}
+ * @returns {Convert}
  */
+var convert = function () {
+  return this;
+};
+var c = new convert();
 
+convert.prototype.solve = function (data) {
 
-var convert = function(){
-	return this;
-}
+  if (data instanceof Array) {
+    return c.array(data);
+  }
+  if (data instanceof Date) {
+    return c.date(data);
+  }
+  if (typeof c[typeof data] === &#x27;function&#x27;) {
+    return c[typeof data](data);
+  }
+  return c.value(data);
+};
 
-convert.prototype.solve = function(data) {
-	
-	if (data instanceof Array) {
-		return c.array(data);
-	}
-	if (data instanceof Date) {
-		return c.date(data);
-	}
-	if (typeof c[typeof data] === &#x27;function&#x27;){
-		return c[typeof data](data);
-	}	
-	return c.value(data);
-}
+convert.prototype.object = function (data) {
+  var ret = &quot;&lt;struct&gt;&quot;;
+  // TODO: make it with forEach
+  for (var name in data) {
+    ret += &quot;&lt;member&gt;&quot;;
+    ret += &quot;&lt;name&gt;&quot; + name + &quot;&lt;/name&gt;&quot;;
+    ret += &quot;&lt;value&gt;&quot; + c.solve(data[name]) + &quot;&lt;/value&gt;&quot;;
+    ret += &quot;&lt;/member&gt;&quot;;
+  }
+  return ret + &quot;&lt;/struct&gt;&quot;;
+};
 
-convert.prototype.object = function(data) {
+convert.prototype.array = function (data) {
+  var ret = &quot;&lt;array&gt;&lt;data&gt;&quot;;
+  for (var i in data) {
+    ret += &quot;&lt;value&gt;&quot; + c.solve(data[i]) + &quot;&lt;/value&gt;&quot;;
+  }
+  return ret + &quot;&lt;/data&gt;&lt;/array&gt;&quot;;
+};
 
-	var ret = &quot;&lt;struct&gt;&quot;;
-	for (var name in data) {
-		ret += &quot;&lt;member&gt;&quot;;
-		ret += &quot;&lt;name&gt;&quot; + name + &quot;&lt;/name&gt;&quot;;
-		ret += &quot;&lt;value&gt;&quot; + c.solve(data[name]) + &quot;&lt;/value&gt;&quot;;
-		ret += &quot;&lt;/member&gt;&quot;;
-	}
-	return ret + &quot;&lt;/struct&gt;&quot;;
-}
+convert.prototype.date = function (data) {
+};
 
-convert.prototype.array = function(data){
-	
-	var ret = &quot;&lt;array&gt;&lt;data&gt;&quot;
-	for (var i in data){
-		ret += &quot;&lt;value&gt;&quot; + c.solve(data[i])+ &quot;&lt;/value&gt;&quot;;
-	}
-	return ret + &quot;&lt;/data&gt;&lt;/array&gt;&quot;;
-}
+convert.prototype.string = function (data) {
+  return &quot;&lt;string&gt;&quot; + data + &quot;&lt;/string&gt;&quot;;
+};
 
-convert.prototype.date = function(data){
-}
+convert.prototype.number = function (data) {
+  return &quot;&lt;int&gt;&quot; + data + &quot;&lt;/int&gt;&quot;;
+};
 
-convert.prototype.string = function(data){
-	return &quot;&lt;string&gt;&quot; + data + &quot;&lt;/string&gt;&quot;;
-}
+convert.prototype.boolean = function (data) {
+  return &quot;&lt;boolean&gt;&quot; + ((data === true) ? &quot;1&quot; : &quot;0&quot;) + &quot;&lt;/boolean&gt;&quot;;
+};
 
-convert.prototype.number = function(data){
-	return &quot;&lt;int&gt;&quot; + data + &quot;&lt;/int&gt;&quot;;
-}
-
-convert.prototype.boolean = function(data){
-	return &quot;&lt;boolean&gt;&quot; + ((data === true) ? &quot;1&quot; : &quot;0&quot;) + &quot;&lt;/boolean&gt;&quot;;
-}
-
-convert.prototype.value = function(data){
-	return &quot;&lt;value&gt;&quot; + data + &quot;&lt;/value&gt;&quot;;
-}
+convert.prototype.value = function (data) {
+  return &quot;&lt;value&gt;&quot; + data + &quot;&lt;/value&gt;&quot;;
+};
 
 module.exports = convert;
-var c = new convert();
+
     </pre>
 </div>
 

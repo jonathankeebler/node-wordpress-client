@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>lib/wordpress-client.js - wordpress-client</title>
+    <title>lib\common\index.js - wordpress-client</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1.0</em>
+            <em>API Docs for: 0.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -80,113 +80,166 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: lib/wordpress-client.js</h1>
+                        <h1 class="file-heading">File: lib\common\index.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-function Client( settings ) {
+&#x27;use strict&#x27;;
+var util = require(&#x27;util&#x27;);
 
-  // Mixing settings and emitter into instance.
-  require( &#x27;object-emitter&#x27; ).mixin( this );
-  require( &#x27;object-settings&#x27; ).mixin( this );
-
-  // Set defaults and instance settings.
-  this.set( Client.defaults ).set( settings );
-
-  // @temp
-  this.nextTick( this.emit, &#x27;ready&#x27;, null, this );
-  // this.nextTick( this.emit, &#x27;error&#x27;, new Error( &#x27;blah&#x27; ) );
-  // this.nextTick( this.emit, &#x27;wp.createPost.success&#x27;, null, { id: 300 });
-
-  this.debug( &#x27;new Client&#x27;, this.get() );
-  this.debug( &#x27;new Client&#x27;, this.common );
-
-  // @chainable
-  return this;
-
-}
-
-Object.defineProperties( Client.prototype, {
-  connect: {
+/**
+ * Common Utility Methods
+ *
+ */
+Object.defineProperties( module.exports, {
+  is_numeric: {
     /**
-     *
+     * Check if Value is Numeric
+     * @param input
+     * @returns {boolean}
      */
-    value: function connect( settings ) {
-
+    value: function is_numeric( input ) {
+      return (input - 0) === input &amp;&amp; (&#x27;&#x27;+input).replace(/^\s+|\s+$/g, &quot;&quot;).length &gt; 0;
     },
     enumerable: true,
     configurable: true,
     writable: true
   },
-  nextTick: {
+  flatten: {
     /**
-     * Call Method on Next Tick.
      *
-     * @param callback
+     * @source grunt-wordpress
+     * @param obj
      * @returns {*}
      */
-    value: function nextTick( callback ) {
-
-      var context = this;
-      var args    = Array.prototype.slice.call( arguments, 1 );
-
-      // Do not schedule callback if not a valid function.
-      if( &#x27;function&#x27; !== typeof callback ) {
-        return this;
+    value: function flatten( obj ) {
+      if ( obj == null ) {
+        return &quot;&quot;;
       }
 
-      // Execute callback on next tick.
-      process.nextTick( function nextTickHandler() {
-        context.debug( &#x27;nextTick&#x27;, callback.name );
-        callback.apply( context, args );
-      });
+      if ( typeof obj === &quot;string&quot; ) {
+        return obj;
+      }
 
-      // @chainable
-      return this;
+      if ( typeof obj === &quot;number&quot; ) {
+        return String( obj );
+      }
+
+      if ( util.isDate( obj ) ) {
+        return obj.toGMTString();
+      }
+
+      if ( Array.isArray( obj ) ) {
+        return obj.map(function( item ) {
+          return flatten( item );
+        }).join( &quot;,&quot; );
+      }
+
+      return Object.keys( obj ).sort().map(function( prop ) {
+        return prop + &quot;:&quot; + flatten( obj[ prop ] );
+      }).join( &quot;;&quot; );
 
     },
     enumerable: true,
     configurable: true,
     writable: true
   },
-  debug: {
-    value: require( &#x27;debug&#x27; )( &#x27;wordpress-client&#x27; ),
-    enumerable: false,
-    configurable: true,
-    writable: true
-  },
-  common: {
-    value: require( &#x27;./common&#x27; ),
-    enumerable: false,
-    configurable: true,
-    writable: true
-  }
-});
-
-Object.defineProperties( module.exports = Client, {
-  defaults: {
-    value: {
-      user: undefined,
-      password: undefined,
-      url: undefined,
-      accessToken: null,
-      blog: 1
-    }
-  },
-  create: {
+  createChecksum: {
     /**
-     * 
-     * @param settings
-     * @returns {Client}
+     *
+     * @source grunt-wordpress
+     * @param obj
+     * @returns {*}
      */
-    value: function create( settings ) {
-      return new Client( settings );
+    value: function createChecksum( obj ) {
+      var crypto = require( &quot;crypto&quot; );
+      var md5 = crypto.createHash( &quot;md5&quot; );
+      md5.update( this.flatten( obj ), &quot;utf8&quot; );
+      return md5.digest( &quot;hex&quot; );
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  parseURL: {
+    value: require( &#x27;url&#x27; ).parse,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  getMime: {
+    value: require( &#x27;mime&#x27; ).lookup,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  createClient: {
+    value: require( &#x27;wordpress&#x27; ).createClient,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  toXML: {
+    /**
+     * @source wordpress-rpc/xml-rpc.js
+     *
+     * @param method
+     * @param parameter
+     * @param callback
+     * @returns {string}
+     */
+    value: function toXML( method, parameter, callback ) {
+
+      var ConvertXML = require( &#x27;./convertXML&#x27; );
+      var cXML = new ConvertXML();
+      var str = &quot;&quot;;
+
+      function convertParams () {
+        var str = &quot;&lt;params&gt;&quot;;
+
+        for (var i in parameter) {
+          str += cXML.solve(parameter[i]);
+        }
+
+        return str+&quot;&lt;/params&gt;&quot;;
+
+      }
+
+      str += &#x27;&lt;methodCall&gt;&#x27;;
+      str += &#x27;&lt;methodName&gt;&#x27; + method + &#x27;&lt;/methodName&gt;&#x27;;
+      str += convertParams() + &#x27;&lt;/methodCall&gt;&#x27;;
+
+      return str;
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  fromXML: {
+    /**
+     *
+     * @source wordpress-rpc/xml-rpc.js
+     * @param xml
+     * @param callback
+     */
+    value: function fromXML( xml, callback ) {
+      var xml2js = require(&#x27;xml2js&#x27;);
+      var ConvertJS = require(&#x27;./convertJS.js&#x27;);
+
+      function doCallback(json){
+        var c = new ConvertJS();
+        json = c.solve(json);
+        callback(null, json);
+      }
+
+      new xml2js.Parser({explicitArray  : false, mergeAttrs : true}).addListener(&#x27;end&#x27;, doCallback).parseString(xml);
     },
     enumerable: true,
     configurable: true,
     writable: true
   }
 });
+
     </pre>
 </div>
 

@@ -1,54 +1,91 @@
+"use strict";
+
 /**
- * Standard Module Build
- *
- * @version 1.0.0
  * @author potanin@UD
  * @param grunt
  */
-module.exports = function( grunt ) {
+module.exports = function (grunt) {
+  // Automatically load tasks with package name "grunt-*" included in package.json.
+  require('load-grunt-tasks')(grunt);
 
-  var joinPath  = require( 'path' ).join;
-  var findup    = require( 'findup-sync' );
-
-  // Automatically Load Tasks.
-  require( 'load-grunt-tasks' )( grunt, {
-    config: './package.json',
-    scope: 'devDependencies'
-  });
-
-  // Project configuration.
   grunt.initConfig({
+    package: grunt.file.readJSON('package.json'),
 
-    package: grunt.file.readJSON( 'package.json' ),
-
-    // Codex.
-    markdown: {
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
       all: {
-        files: [
-          {
-            expand: true,
-            src: 'readme.md',
-            dest: 'static',
-            ext: '.html'
-          }
-        ]
+        src: ['Gruntfile.js', 'lib/**/*.js']
+      }
+    },
+
+    clean: {
+      docs: {
+        src: 'docs/'
+      },
+      coverage: {
+        src: 'lib-cov/'
+      },
+      reports: {
+        src: 'reports/'
       }
     },
 
     // Tests.
+    copy: {
+      test: {
+        src: ['test/**'],
+        dest: 'lib-cov/'
+      }
+    },
+
+    blanket: {
+      all: {
+        src: 'lib/',
+        dest: 'lib-cov/lib'
+      }
+    },
+
     mochaTest: {
+      'spec': {
+        options: {
+          reporter: 'spec',
+          timeout: 10000,
+          ui: 'bdd'
+        },
+        src: 'lib-cov/test/**/*.js'
+      },
+      'html-cov': {
+        options: {
+          reporter: 'html-cov',
+          quiet: true,
+          captureFile: 'reports/coverage.html'
+        },
+        src: ['lib-cov/test/lib/**/*.js']
+      },
+      'mocha-lcov-reporter': {
+        options: {
+          reporter: 'mocha-lcov-reporter',
+          quiet: true,
+          captureFile: 'reports/lcov.info'
+        },
+        src: ['lib-cov/test/lib/**/*.js']
+      },
+      'travis-cov': {
+        options: {
+          reporter: 'travis-cov'
+        },
+        src: ['lib-cov/test/lib/**/*.js']
+      }
+    },
+
+    coveralls: {
       options: {
-        timeout: 10000,
-        log: true,
-        require: [ 'should' ],
-        reporter: 'list',
-        ui: 'exports'
+        force: true
       },
-      basic: {
-        src: [ 'static/testsbasic-*.js' ]
-      },
-      advanced: {
-        src: [ 'static/testsadvanced-*.js' ]
+      all: {
+        src: 'reports/lcov.info'
       }
     },
 
@@ -61,26 +98,31 @@ module.exports = function( grunt ) {
         url: '<%= package.homepage %>',
         logo: 'http://media.usabilitydynamics.com/logo.png',
         options: {
-          paths: [ "./lib" ],
-          outdir: './static/codex'
+          paths: [ "lib/" ],
+          outdir: 'docs/'
         }
       }
-    }
+    },
 
+    // Codex.
+    markdown: {
+      all: {
+        files: [
+          {
+            expand: true,
+            src: 'readme.md',
+            dest: 'docs',
+            ext: '.html'
+          }
+        ]
+      }
+    }
   });
 
-  // Update Documentation, run basic tests.
-  grunt.registerTask( 'default', [ 'markdown', 'mochaTest:basic' ] );
+  grunt.registerTask('clean-test', ['clean:coverage', 'clean:reports']);
+  grunt.registerTask('build', ['clean-test', 'blanket', 'copy']);
+  grunt.registerTask('doc', ['clean:docs', 'markdown', 'yuidoc' ]);
 
-  // Run Basic tests.
-  grunt.registerTask( 'test',[ 'mochaTest:basic' ] );
-
-  grunt.registerTask( 'test:basic', [ 'mochaTest:basic' ] );
-
-  // Run Adavnced tests.
-  grunt.registerTask( 'test:advanced', [ 'mochaTest:advanced' ] );
-
-  // Generate documentation.
-  grunt.registerTask( 'documentation', [ 'markdown', 'yuidoc' ] );
-
+  grunt.registerTask('default', ['jshint', 'build', 'mochaTest']);
+  grunt.registerTask('ci', ['default', 'coveralls']);
 };

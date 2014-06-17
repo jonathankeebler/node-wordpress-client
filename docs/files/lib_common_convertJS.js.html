@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>lib/common/convertJS.js - wordpress-client</title>
+    <title>lib\common\convertJS.js - wordpress-client</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1.0</em>
+            <em>API Docs for: 0.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -80,104 +80,101 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: lib/common/convertJS.js</h1>
+                        <h1 class="file-heading">File: lib\common\convertJS.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
 /**
- *
- *
+ * @constructor
  * @source wordpress-rpc/lib/convertJS.js
- * @returns {convert}
+ * @returns {Convert}
  */
+var Convert = function () {
+  return this;
+};
 
-var convert = function(){
-	
-	return this;
-}
+var c = new Convert();
 
-convert.prototype.solve = function(data) {
-	
-	for (var i in data) {
-		if (typeof this[i] !== &#x27;undefined&#x27;) {
-			data = this[i](data);
-		}
-	}
-	return data
-}
+Convert.prototype.solve = function (data) {
+  var self = this;
+  var result;
+  data.forEach(function(element) {
+    if (typeof self[element] !== &#x27;undefined&#x27;) {
+      result = self[element](data);
+    }
+  });
+  return result;
+};
 
-convert.prototype.methodResponse = function(data) {
-	var value;
-	
-	if (typeof data.methodResponse.params !== &#x27;undefined&#x27;) {
-		value = data.methodResponse.params.param.value || [];
-	}
-	else if (typeof data.methodResponse.fault !== &#x27;undefined&#x27;) {
-		value = data.methodResponse.fault.value || [];
-	}
-	else throw JSON.stringify(data)
-	
-	var arr = [];
-	value = 
-		(value instanceof Array)
-		? value
-		: [value];
-	for (var i in value) {
-		arr.push(c.solve(value[i]));
-	}
-	// todo: by fault no prams
-	return {methodResponse : {params : arr}}
-}
-convert.prototype.array = function(data){
-	
-	data = data.array.data.value || [];
-	var arr = [];
-	
-	if (typeof data !== &#x27;undefined&#x27;) {
-		data = 
-			(data instanceof Array)
-			? data
-			: [data];
-	}
-	for (var i in data) {
-		arr.push(c.solve(data[i]));
-	}
-	return arr;
-}
-convert.prototype[&#x27;dateTime.iso8601&#x27;] = function(data){
-	// todo: umwandeln in ordentliche DateObject
-	var date = data[&#x27;dateTime.iso8601&#x27;];
-	return date;
-}
-convert.prototype.int = function(data){
-	return (!isNaN(data[&quot;int&quot;])) ? Number(data[&quot;int&quot;]) : null;
-}
-convert.prototype.string = function(data){
-	return (typeof data.string === &#x27;string&#x27;) ? data.string : &quot;&quot;
-}
-convert.prototype.struct = function(data){
-	data = data.struct.member || [];
-	data = 
-		(data instanceof Array)
-		? data
-		: [data];
-		
-	var struct = {};
-	for (var i in data) {
-		struct[data[i].name] = c.solve(data[i].value);
-	}
-	return struct;
-}
-convert.prototype.boolean = function(data){
-	var bool = (data.boolean === &#x27;1&#x27;)
-		? true 
-		: (data.boolean === &#x27;0&#x27;)
-		? false
-		: data;
-	return bool;
-}
-module.exports = convert;
-var c = new convert();
+Convert.prototype.methodResponse = function (data) {
+  var value;
+
+  if (typeof data.methodResponse.params !== &#x27;undefined&#x27;) {
+    value = data.methodResponse.params.param.value || [];
+  }
+  else if (typeof data.methodResponse.fault !== &#x27;undefined&#x27;) {
+    value = data.methodResponse.fault.value || [];
+  }
+  else {
+    throw JSON.stringify(data);
+  }
+
+  var arr = [];
+  value = (value instanceof Array) ? value : [value];
+  value.forEach(function (element) {
+    arr.push(c.solve(element));
+  });
+  // todo: by fault no prams
+  return {methodResponse: {params: arr}};
+};
+
+Convert.prototype.array = function (data) {
+  data = data.array.data.value || [];
+  var arr = [];
+
+  if (typeof data !== &#x27;undefined&#x27;) {
+    data = (data instanceof Array) ? data : [data];
+  }
+  data.forEach(function (element) {
+    arr.push(c.solve(element));
+  });
+  return arr;
+};
+
+Convert.prototype[&#x27;dateTime.iso8601&#x27;] = function (data) {
+  // todo: umwandeln in ordentliche DateObject
+  return data[&#x27;dateTime.iso8601&#x27;];
+};
+
+Convert.prototype.int = function (data) {
+  return (!isNaN(data.int)) ? Number(data.int) : null;
+};
+
+Convert.prototype.string = function (data) {
+  return (typeof data.string === &#x27;string&#x27;) ? data.string : &quot;&quot;;
+};
+
+Convert.prototype.struct = function (data) {
+  data = data.struct.member || [];
+  data = (data instanceof Array) ? data : [data];
+
+  var struct = {};
+  data.forEach(function (element) {
+    struct[element.name] = c.solve(element.value);
+  });
+  return struct;
+};
+
+Convert.prototype.boolean = function (data) {
+  return (data.boolean === &#x27;1&#x27;) ? true
+    : (data.boolean === &#x27;0&#x27;) ? false
+    : data;
+};
+
+module.exports = Convert;
+
     </pre>
 </div>
 
