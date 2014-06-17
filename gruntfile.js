@@ -52,9 +52,10 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec',
           timeout: 10000,
-          ui: 'bdd'
+          ui: 'bdd',
+          require: ['should']
         },
-        src: 'lib-cov/test/**/*.js'
+        src: 'test/**/*.js'
       },
       'html-cov': {
         options: {
@@ -122,6 +123,8 @@ module.exports = function (grunt) {
   grunt.registerTask('clean-test', ['clean:coverage', 'clean:reports']);
   grunt.registerTask('build', ['clean-test', 'blanket', 'copy']);
   grunt.registerTask('doc', ['clean:docs', 'markdown', 'yuidoc' ]);
+
+  grunt.registerTask('test', ['mochaTest:spec']);
 
   grunt.registerTask('default', ['jshint', 'build', 'mochaTest']);
   grunt.registerTask('ci', ['default', 'coveralls']);
