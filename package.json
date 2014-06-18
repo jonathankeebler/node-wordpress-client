@@ -65,17 +65,20 @@
   },
   "dependencies": {
     "async": "~0.9.0",
+    "debug": "~1.0.2",
+    "deep-extend": "~0.2.10",
     "findup-sync": "~0.1.3",
-    "wordpress": "~0.1.3",
+    "fs-extra": "~0.9.1",
+    "hooker": "~0.2.3",
+    "load-grunt-tasks": "~0.5.0",
+    "lodash": "~2.4.1",
+    "mime": "~1.2.11",
+    "nock": "^0.36.2",
     "object-emitter": "0.0.5",
     "object-settings": "~0.1.2",
-    "debug": "~1.0.2",
-    "lodash": "~2.4.1",
-    "deep-extend": "~0.2.10",
-    "mime": "~1.2.11",
-    "load-grunt-tasks": "~0.5.0",
-    "hooker": "~0.2.3",
-    "fs-extra": "~0.9.1"
+    "q": "1.0.1",
+    "wordpress": "~0.1.3",
+    "xmlbuilder": "^2.2.1"
   },
   "keywords": [
     "wordpress"
