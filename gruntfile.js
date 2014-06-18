@@ -100,7 +100,7 @@ module.exports = function (grunt) {
         logo: 'http://media.usabilitydynamics.com/logo.png',
         options: {
           paths: [ "lib/" ],
-          outdir: 'docs/'
+          outdir: 'static/codex'
         }
       }
     },
@@ -112,7 +112,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             src: 'readme.md',
-            dest: 'docs',
+            dest: 'static',
             ext: '.html'
           }
         ]
