@@ -156,19 +156,37 @@ describe('Common utils testing', function () {
         "<methodCall>" +
           "<methodName>method</methodName>" +
           "<params>" +
-            "<string>string</string>" +
-            "<int>456</int>" +
-            "<struct>" +
-              "<member>" +
-                "<name>key1</name>" +
-                "<value>" +
-                  "<string>string2</string>" +
-                "</value>" +
-              "</member>" +
-            "</struct>" +
+          "<string>string</string>" +
+          "<int>456</int>" +
+          "<struct>" +
+          "<member>" +
+          "<name>key1</name>" +
+          "<value>" +
+          "<string>string2</string>" +
+          "</value>" +
+          "</member>" +
+          "</struct>" +
           "</params>" +
-        "</methodCall>";
+          "</methodCall>";
       utils.toXML('method', ['string', 456, { key1: "string2" }]).should.be.exactly(expected);
+    });
+  });
+
+  describe('Trim testing', function () {
+    it('should trim array items', function () {
+      var input = [
+        '    Hello World',
+        'World   ',
+        '  testing   '
+      ];
+      utils.trim(input).should.be.eql(['Hello World', 'World', 'testing']);
+    });
+
+    it('should return empty array if no input passed', function () {
+      utils.trim(void 0).should.be.eql([]);
+      utils.trim(null).should.be.eql([]);
+      utils.trim(true).should.be.eql([]);
+      utils.trim("Hello World").should.be.eql([]);
     });
   });
 
