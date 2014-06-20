@@ -6,18 +6,20 @@ var fs = require('fs');
 describe('Wordpress XML-RPC testing', function () {
   describe('wordpress client testing', function () {
     before(function () {
+
       this.scope = nock('http://test.com')
         .defaultReplyHeaders({
           'Content-Type': 'text/xml'
         })
         .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params/></methodCall>')
         .times(10000)
-        .reply(200, fs.readFileSync('test/fixtures/listMethods.xml'))
+        .reply(200, fs.readFileSync('test/fixtures/listMethods.xml', { encoding: 'utf8' }))
         .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.fail</methodName><params/></methodCall>')
         .times(10000)
         .reply(404)
-        .post('/xmlrpc.php', fs.readFileSync('test/fixtures/newPost.xml'))
-        .reply();
+        .post('/xmlrpc.php', fs.readFileSync('test/fixtures/newPost.xml', { encoding: 'utf8' }))
+        .times(10000)
+        .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><string>28</string></value></param></params></methodResponse>');
     });
 
     it('should connect and return list of methods', function (done) {
@@ -26,7 +28,7 @@ describe('Wordpress XML-RPC testing', function () {
         username: 'test',
         password: 'test'
       }).once('connected', function (err, that) {
-        var methods = JSON.parse(fs.readFileSync('test/fixtures/listMethods.json'));
+        var methods = JSON.parse(fs.readFileSync('test/fixtures/listMethods.json', { encoding: 'utf8' }));
         that.get('methods').should.be.eql(methods);
         done();
       });
@@ -80,13 +82,11 @@ describe('Wordpress XML-RPC testing', function () {
       }).once('connected', function (err, that) {
         var input = {
           "post_type": "post",
-          "post_status": "draft",
+          "post_status": "publish",
           "post_title": "Test Post",
           "post_author": 1,
           "post_excerpt": "Summary of post",
           "post_content": "<b>Rich-text</b> detail of of post.",
-          "post_modified_gmt": "Thu Jun 19 2014 20:39:23 GMT+0300 (Eastern Europe Daylight Time)",
-          "post_date": "Thu Jun 19 2014 20:39:23 GMT+0300 (Eastern Europe Daylight Time)",
           "post_format": "standard",
           "comment_status": "closed",
           "ping_status": "closed",
@@ -102,11 +102,12 @@ describe('Wordpress XML-RPC testing', function () {
             }
           ],
           "terms_names": {
-            "category": [ "Awesome Category", "Another Category" ],
-            "post_tag": [ "Chicago" ]
+            "category": ["Cat"],
+            "post_tag": ["Chicago", "New Jersey"]
           }
         };
         that.insertPost(input, function (err, response) {
+          response.should.have.properties({ ok: true, id: 28, updated: false });
           done();
         });
       });
