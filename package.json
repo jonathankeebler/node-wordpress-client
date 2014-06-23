@@ -28,7 +28,7 @@
   ],
   "main": "lib/wordpress-client.js",
   "engines": {
-    "node": ">= 0.10.x"
+    "node": ">=0.10.29"
   },
   "scripts": {
     "test": "grunt",
