@@ -2,6 +2,7 @@
 var wp = require('../lib/wordpress-client');
 var nock = require('nock');
 var fs = require('fs');
+var path = require('path');
 
 module.exports = {
   'Wordpress XML-RPC testing': {
@@ -14,7 +15,7 @@ module.exports = {
           })
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params/></methodCall>')
           .times(10000)
-          .reply(200, fs.readFileSync('test/fixtures/listMethods.xml', { encoding: 'utf8' }))
+          .reply(200, fs.readFileSync(path.normalize(__dirname, 'fixtures', 'listMethods.xml'), { encoding: 'utf8' }))
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.fail</methodName><params/></methodCall>')
           .times(10000)
           .reply(404)
