@@ -15,7 +15,7 @@ module.exports = {
           })
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params/></methodCall>')
           .times(10000)
-          .reply(200, fs.readFileSync(path.normalize(__dirname, 'fixtures', 'listMethods.xml'), { encoding: 'utf8' }))
+          .reply(200, fs.readFileSync(path.join(__dirname, 'fixtures', 'listMethods.xml'), { encoding: 'utf8' }))
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.fail</methodName><params/></methodCall>')
           .times(10000)
           .reply(404)
