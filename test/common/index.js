@@ -89,11 +89,15 @@ module.exports = {
       },
 
       'should return string for date': function () {
-        utils.flatten(new Date(2014, 6, 17)).should.be.exactly("2014-07-16T21:00:00.000Z");
+        var input = new Date("2014-07-16T00:00:00.000");
+        input.getFullYear().should.be.exactly(2014);
+        input.getDate().should.be.exactly(16);
+        input.getMonth().should.be.exactly(6);
+        utils.flatten(input).should.be.exactly("2014-07-16T00:00:00.000Z");
       },
 
       'should return string divided by coma for array': function () {
-        utils.flatten(["Val1", 123, "value 2", new Date(2013, 10, 11)]).should.be.exactly("Val1,123,value 2,2013-11-10T22:00:00.000Z");
+        utils.flatten(["Val1", 123, "value 2", new Date("2013-11-10T00:00:00")]).should.be.exactly("Val1,123,value 2,2013-11-10T00:00:00.000Z");
       },
 
       'should return string divided by semicolon for nested object': function () {
@@ -101,7 +105,7 @@ module.exports = {
           "key1": "string value",
           "key2": 1234,
           "key3": null,
-          "key4": new Date(2014, 7, 1),
+          "key4": new Date("2014-07-31T21:00:00"),
           "key5": {
             "sub5.1": "string value",
             "sub5.2": 654,
