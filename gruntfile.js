@@ -52,7 +52,7 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec',
           timeout: 10000,
-          ui: 'bdd',
+          ui: 'exports',
           require: ['should']
         },
         src: 'test/**/*.js'
