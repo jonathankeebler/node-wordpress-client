@@ -5,3 +5,11 @@
 
 
 WordPress XML-RPC client.
+
+resources:
+  - "https://usabilitydynamics.com/technical/project-yaml/"
+  - "https://github.com/scottgonzalez/grunt-wordpress"
+  - "https://www.npmjs.org/package/grunt-wordpress-deploy"
+  - "https://www.npmjs.org/package/wp-util"
+  - "https://www.npmjs.org/package/wordpress-rpc"
+  
