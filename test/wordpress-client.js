@@ -127,7 +127,7 @@ module.exports = {
           var input = {
             "name": "image.jpg",
             "type": "image/jpeg",
-            "bits": fs.readFileSync('test/fixtures/test.jpg'),
+            "bits": fs.readFileSync(path.join(__dirname, 'fixtures', 'test.jpg')),
             "override": true
           };
           that.uploadFile(input, function (err, response) {
