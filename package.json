@@ -58,9 +58,7 @@
     "grunt-readme-generator": "~0.3.41",
     "grunt-notify": "~0.3.0",
     "grunt-blanket": "~0.0.8",
-    "grunt-coveralls": "~0.3.0",
     "travis-cov": "~0.2.5",
-    "cover-child-process": "~0.1.5",
     "grunt-env": "~0.4.1"
   },
   "dependencies": {

@@ -1,6 +1,8 @@
 machine:
   node:
-    version: 0.10.0
+    version: 0.10.28
 dependencies:
-  override:
+  pre:
     - npm install --dev
+  override:
+    - npm i
