@@ -44,7 +44,7 @@
     "should": "~4.0.4",
     "mocha": "~1.20.1",
     "mocha-lcov-reporter": "git://github.com/StevenLooman/mocha-lcov-reporter.git",
-    "faker": "~0.7.2",
+    "faker": "~1.0.0",
     "grunt": "~0.4.5",
     "load-grunt-tasks": "~0.5.0",
     "grunt-contrib-symlink": "~0.3.0",
