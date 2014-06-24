@@ -28,6 +28,14 @@ module.exports = {
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value><string>test</string></value></param><param><value><string>test</string></value></param></params></methodCall>')
           .times(10000)
           .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>isAdmin</name><value><boolean>1</boolean></value></member><member><name>url</name><value><string>http://test.com/</string></value></member><member><name>blogid</name><value><string>1</string></value></member><member><name>blogName</name><value><string>test</string></value></member><member><name>xmlrpc</name><value><string>http://test.com//xmlrpc.php</string></value></member></struct></value></data></array></value></param></params></methodResponse>');
+
+        nock('http://errors.com')
+          .defaultReplyHeaders({
+            'Content-Type': 'text/xml'
+          })
+          .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value><string>test</string></value></param><param><value><string>test</string></value></param></params></methodCall>')
+          .times(10000)
+          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><fault><value><struct><member><name>faultCode</name><value><int>403</int></value></member><member><name>faultString</name><value><string>Incorrect username or password.</string></value></member></struct></value></fault></methodResponse>');
       },
 
       'should connect and return list of methods': function (done) {
@@ -149,17 +157,31 @@ module.exports = {
           username: 'test',
           password: 'test'
         }).once('connected', function (err, that) {
-          that.detectBlog(function (err, blog) {
+          that.get('blog').should.be.exactly(1);
+          that.get('blogId').should.be.exactly(1);
+          that.__client.blogId.should.be.exactly(1);
+
+          that.detectBlog(function (err, blog, response) {
             blog.blogid.should.be.exactly("1");
             blog.blogName.should.be.exactly("test");
             blog.url.should.be.exactly("http://test.com/");
             //blog.xmlrpc.should.be.exactly("http://test.com/xmlrpc.php");
 
-            this.get("blog").should.be.exactly(1);
-            this.get("blogId").should.be.exactly(1);
-            this.__client.blogId.should.be.exactly(1);
             done();
-          });
+          }, true);
+        });
+      },
+
+      'should fail with invalid credentials': function (done) {
+        wp.create({
+          url: 'http://errors.com',
+          username: 'test',
+          password: 'test'
+        }).once('connected', function (err, that) {
+          err.faultString.should.be.exactly("Incorrect username or password.");
+          err.code.should.be.exactly(403);
+          err.faultCode.should.be.exactly(403);
+          done();
         });
       }
     }
