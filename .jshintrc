@@ -10,5 +10,6 @@
   "boss": true,
   "eqnull": true,
   "node": true,
-  "scripturl": true
+  "scripturl": true,
+  "predef": ["describe", "before", "it", "after", "beforeEach", "afterEach"]
 }

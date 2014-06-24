@@ -1,207 +1,112 @@
-if (typeof _$jscoverage === 'undefined') _$jscoverage = {};
-if (typeof _$jscoverage['lib/common/convertXML.js'] === 'undefined'){_$jscoverage['lib/common/convertXML.js']=[];
-_$jscoverage['lib/common/convertXML.js'].source=['\'use strict\';',
-'',
-'/**',
-' *',
-' * @constructor',
-' * @source wordpress-rpc/lib/convertXML.js',
-' * @returns {Convert}',
-' */',
-'var convert = function () {',
-'  return this;',
-'};',
-'var c = new convert();',
-'',
-'convert.prototype.solve = function (data) {',
-'',
-'  if (data instanceof Array) {',
-'    return c.array(data);',
-'  }',
-'  if (data instanceof Date) {',
-'    return c.date(data);',
-'  }',
-'  if (typeof c[typeof data] === \'function\') {',
-'    return c[typeof data](data);',
-'  }',
-'  return c.value(data);',
-'};',
-'',
-'convert.prototype.object = function (data) {',
-'  var ret = "<struct>";',
-'  // TODO: make it with forEach',
-'  for (var name in data) {',
-'    ret += "<member>";',
-'    ret += "<name>" + name + "</name>";',
-'    ret += "<value>" + c.solve(data[name]) + "</value>";',
-'    ret += "</member>";',
-'  }',
-'  return ret + "</struct>";',
-'};',
-'',
-'convert.prototype.array = function (data) {',
-'  var ret = "<array><data>";',
-'  for (var i in data) {',
-'    ret += "<value>" + c.solve(data[i]) + "</value>";',
-'  }',
-'  return ret + "</data></array>";',
-'};',
-'',
-'convert.prototype.date = function (data) {',
-'};',
-'',
-'convert.prototype.string = function (data) {',
-'  return "<string>" + data + "</string>";',
-'};',
-'',
-'convert.prototype.number = function (data) {',
-'  return "<int>" + data + "</int>";',
-'};',
-'',
-'convert.prototype.boolean = function (data) {',
-'  return "<boolean>" + ((data === true) ? "1" : "0") + "</boolean>";',
-'};',
-'',
-'convert.prototype.value = function (data) {',
-'  return "<value>" + data + "</value>";',
-'};',
-'',
-'module.exports = convert;',
-''];
-_$jscoverage['lib/common/convertXML.js'][31]=0;
-_$jscoverage['lib/common/convertXML.js'][1]=0;
-_$jscoverage['lib/common/convertXML.js'][37]=0;
-_$jscoverage['lib/common/convertXML.js'][9]=0;
-_$jscoverage['lib/common/convertXML.js'][28]=0;
-_$jscoverage['lib/common/convertXML.js'][17]=0;
-_$jscoverage['lib/common/convertXML.js'][16]=0;
-_$jscoverage['lib/common/convertXML.js'][12]=0;
-_$jscoverage['lib/common/convertXML.js'][10]=0;
-_$jscoverage['lib/common/convertXML.js'][14]=0;
-_$jscoverage['lib/common/convertXML.js'][42]=0;
-_$jscoverage['lib/common/convertXML.js'][25]=0;
-_$jscoverage['lib/common/convertXML.js'][22]=0;
-_$jscoverage['lib/common/convertXML.js'][20]=0;
-_$jscoverage['lib/common/convertXML.js'][19]=0;
-_$jscoverage['lib/common/convertXML.js'][23]=0;
-_$jscoverage['lib/common/convertXML.js'][48]=0;
-_$jscoverage['lib/common/convertXML.js'][35]=0;
-_$jscoverage['lib/common/convertXML.js'][33]=0;
-_$jscoverage['lib/common/convertXML.js'][32]=0;
-_$jscoverage['lib/common/convertXML.js'][34]=0;
-_$jscoverage['lib/common/convertXML.js'][29]=0;
-_$jscoverage['lib/common/convertXML.js'][56]=0;
-_$jscoverage['lib/common/convertXML.js'][43]=0;
-_$jscoverage['lib/common/convertXML.js'][40]=0;
-_$jscoverage['lib/common/convertXML.js'][41]=0;
-_$jscoverage['lib/common/convertXML.js'][45]=0;
-_$jscoverage['lib/common/convertXML.js'][51]=0;
-_$jscoverage['lib/common/convertXML.js'][52]=0;
-_$jscoverage['lib/common/convertXML.js'][55]=0;
-_$jscoverage['lib/common/convertXML.js'][59]=0;
-_$jscoverage['lib/common/convertXML.js'][60]=0;
-_$jscoverage['lib/common/convertXML.js'][63]=0;
-_$jscoverage['lib/common/convertXML.js'][64]=0;
-_$jscoverage['lib/common/convertXML.js'][67]=0;
-}_$jscoverage['lib/common/convertXML.js'][1]++;
 'use strict';
 
-/**
- *
- * @constructor
- * @source wordpress-rpc/lib/convertXML.js
- * @returns {Convert}
- */
-_$jscoverage['lib/common/convertXML.js'][9]++;
-var convert = function () {
-  _$jscoverage['lib/common/convertXML.js'][10]++;
-return this;
-};
-_$jscoverage['lib/common/convertXML.js'][12]++;
-var c = new convert();
+var convertFn = require('../../lib/common/convertXML');
 
-_$jscoverage['lib/common/convertXML.js'][14]++;
-convert.prototype.solve = function (data) {
+module.exports = {
+  'Testing XML string creation': {
 
-  _$jscoverage['lib/common/convertXML.js'][16]++;
-if (data instanceof Array) {
-    _$jscoverage['lib/common/convertXML.js'][17]++;
-return c.array(data);
+    'should return string for string': function () {
+      convertFn("string value").should.be.exactly("<string>string value</string>");
+    },
+
+    'should return string for number': function () {
+      convertFn(123).should.be.exactly("<int>123</int>");
+      convertFn(12.3).should.be.exactly("<double>12.3</double>");
+    },
+
+    'should return string for boolean': function () {
+      convertFn(true).should.be.exactly("<boolean>1</boolean>");
+      convertFn(false).should.be.exactly("<boolean>0</boolean>");
+    },
+
+    'should return empty string for date': function () {
+      var input = new Date();
+      var expected = '<dateTime.iso8601>' + input.toISOString() + '</dateTime.iso8601>';
+      convertFn(input).should.be.exactly(expected);
+    },
+
+//  'should return string for value': function () {
+//    convertFn(new Error("Custom value")).should.be.exactly("<value>Custom value</value>");
+//  },
+
+    'should return string for array': function () {
+      var date = new Date();
+      var expected = "<array>" +
+        "<data>" +
+        "<value>" +
+        "<string>string value</string>" +
+        "</value>" +
+        "<value>" +
+        "<int>456</int>" +
+        "</value>" +
+        "<value>" +
+        "<dateTime.iso8601>" + date.toISOString() + "</dateTime.iso8601>" +
+        "</value>" +
+        "<value>" +
+        "<boolean>1</boolean>" +
+        "</value>" +
+        "</data>" +
+        "</array>";
+      convertFn(["string value", 456, date, true]).should.be.exactly(expected);
+    },
+
+    'should return string for object': function () {
+      var input = {
+        key1: "string value",
+        key2: 123,
+        key3: false,
+        nestedKey: {
+          nested1: "some string"
+        },
+        key4: ["hello world"]
+      };
+      var expected =
+        "<struct>" +
+          "<member>" +
+          "<name>key1</name>" +
+          "<value>" +
+          "<string>string value</string>" +
+          "</value>" +
+          "</member>" +
+          "<member>" +
+          "<name>key2</name>" +
+          "<value>" +
+          "<int>123</int>" +
+          "</value>" +
+          "</member>" +
+          "<member>" +
+          "<name>key3</name>" +
+          "<value>" +
+          "<boolean>0</boolean>" +
+          "</value>" +
+          "</member>" +
+          "<member>" +
+          "<name>nestedKey</name>" +
+          "<value>" +
+          "<struct>" +
+          "<member>" +
+          "<name>nested1</name>" +
+          "<value>" +
+          "<string>some string</string>" +
+          "</value>" +
+          "</member>" +
+          "</struct>" +
+          "</value>" +
+          "</member>" +
+          "<member>" +
+          "<name>key4</name>" +
+          "<value>" +
+          "<array>" +
+          "<data>" +
+          "<value>" +
+          "<string>hello world</string>" +
+          "</value>" +
+          "</data>" +
+          "</array>" +
+          "</value>" +
+          "</member>" +
+          "</struct>";
+      convertFn(input).should.be.exactly(expected);
+    }
   }
-  _$jscoverage['lib/common/convertXML.js'][19]++;
-if (data instanceof Date) {
-    _$jscoverage['lib/common/convertXML.js'][20]++;
-return c.date(data);
-  }
-  _$jscoverage['lib/common/convertXML.js'][22]++;
-if (typeof c[typeof data] === 'function') {
-    _$jscoverage['lib/common/convertXML.js'][23]++;
-return c[typeof data](data);
-  }
-  _$jscoverage['lib/common/convertXML.js'][25]++;
-return c.value(data);
 };
-
-_$jscoverage['lib/common/convertXML.js'][28]++;
-convert.prototype.object = function (data) {
-  _$jscoverage['lib/common/convertXML.js'][29]++;
-var ret = "<struct>";
-  // TODO: make it with forEach
-  _$jscoverage['lib/common/convertXML.js'][31]++;
-for (var name in data) {
-    _$jscoverage['lib/common/convertXML.js'][32]++;
-ret += "<member>";
-    _$jscoverage['lib/common/convertXML.js'][33]++;
-ret += "<name>" + name + "</name>";
-    _$jscoverage['lib/common/convertXML.js'][34]++;
-ret += "<value>" + c.solve(data[name]) + "</value>";
-    _$jscoverage['lib/common/convertXML.js'][35]++;
-ret += "</member>";
-  }
-  _$jscoverage['lib/common/convertXML.js'][37]++;
-return ret + "</struct>";
-};
-
-_$jscoverage['lib/common/convertXML.js'][40]++;
-convert.prototype.array = function (data) {
-  _$jscoverage['lib/common/convertXML.js'][41]++;
-var ret = "<array><data>";
-  _$jscoverage['lib/common/convertXML.js'][42]++;
-for (var i in data) {
-    _$jscoverage['lib/common/convertXML.js'][43]++;
-ret += "<value>" + c.solve(data[i]) + "</value>";
-  }
-  _$jscoverage['lib/common/convertXML.js'][45]++;
-return ret + "</data></array>";
-};
-
-_$jscoverage['lib/common/convertXML.js'][48]++;
-convert.prototype.date = function (data) {
-};
-
-_$jscoverage['lib/common/convertXML.js'][51]++;
-convert.prototype.string = function (data) {
-  _$jscoverage['lib/common/convertXML.js'][52]++;
-return "<string>" + data + "</string>";
-};
-
-_$jscoverage['lib/common/convertXML.js'][55]++;
-convert.prototype.number = function (data) {
-  _$jscoverage['lib/common/convertXML.js'][56]++;
-return "<int>" + data + "</int>";
-};
-
-_$jscoverage['lib/common/convertXML.js'][59]++;
-convert.prototype.boolean = function (data) {
-  _$jscoverage['lib/common/convertXML.js'][60]++;
-return "<boolean>" + ((data === true) ? "1" : "0") + "</boolean>";
-};
-
-_$jscoverage['lib/common/convertXML.js'][63]++;
-convert.prototype.value = function (data) {
-  _$jscoverage['lib/common/convertXML.js'][64]++;
-return "<value>" + data + "</value>";
-};
-
-_$jscoverage['lib/common/convertXML.js'][67]++;
-module.exports = convert;

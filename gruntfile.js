@@ -52,9 +52,10 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec',
           timeout: 10000,
-          ui: 'bdd'
+          ui: 'exports',
+          require: ['should']
         },
-        src: 'lib-cov/test/**/*.js'
+        src: 'test/**/*.js'
       },
       'html-cov': {
         options: {
@@ -99,7 +100,7 @@ module.exports = function (grunt) {
         logo: 'http://media.usabilitydynamics.com/logo.png',
         options: {
           paths: [ "lib/" ],
-          outdir: 'docs/'
+          outdir: 'static/codex'
         }
       }
     },
@@ -111,7 +112,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             src: 'readme.md',
-            dest: 'docs',
+            dest: 'static',
             ext: '.html'
           }
         ]
@@ -122,6 +123,8 @@ module.exports = function (grunt) {
   grunt.registerTask('clean-test', ['clean:coverage', 'clean:reports']);
   grunt.registerTask('build', ['clean-test', 'blanket', 'copy']);
   grunt.registerTask('doc', ['clean:docs', 'markdown', 'yuidoc' ]);
+
+  grunt.registerTask('test', ['mochaTest:spec']);
 
   grunt.registerTask('default', ['jshint', 'build', 'mochaTest']);
   grunt.registerTask('ci', ['default', 'coveralls']);

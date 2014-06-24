@@ -1,0 +1,8 @@
+machine:
+  node:
+    version: 0.10.28
+dependencies:
+  pre:
+    - npm install --dev
+  override:
+    - npm i

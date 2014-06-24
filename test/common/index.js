@@ -1,393 +1,199 @@
-if (typeof _$jscoverage === 'undefined') _$jscoverage = {};
-if (typeof _$jscoverage['lib/common/index.js'] === 'undefined'){_$jscoverage['lib/common/index.js']=[];
-_$jscoverage['lib/common/index.js'].source=['\'use strict\';',
-'var util = require(\'util\');',
-'',
-'/**',
-' * Common Utility Methods',
-' *',
-' */',
-'Object.defineProperties( module.exports, {',
-'  is_numeric: {',
-'    /**',
-'     * Check if Value is Numeric',
-'     * @param input',
-'     * @returns {boolean}',
-'     */',
-'    value: function is_numeric( input ) {',
-'      return (input - 0) === input && (\'\'+input).replace(/^\\s+|\\s+$/g, "").length > 0;',
-'    },',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  flatten: {',
-'    /**',
-'     *',
-'     * @source grunt-wordpress',
-'     * @param obj',
-'     * @returns {*}',
-'     */',
-'    value: function flatten( obj ) {',
-'      if ( obj == null ) {',
-'        return "";',
-'      }',
-'',
-'      if ( typeof obj === "string" ) {',
-'        return obj;',
-'      }',
-'',
-'      if ( typeof obj === "number" ) {',
-'        return String( obj );',
-'      }',
-'',
-'      if ( util.isDate( obj ) ) {',
-'        return obj.toGMTString();',
-'      }',
-'',
-'      if ( Array.isArray( obj ) ) {',
-'        return obj.map(function( item ) {',
-'          return flatten( item );',
-'        }).join( "," );',
-'      }',
-'',
-'      return Object.keys( obj ).sort().map(function( prop ) {',
-'        return prop + ":" + flatten( obj[ prop ] );',
-'      }).join( ";" );',
-'',
-'    },',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  createChecksum: {',
-'    /**',
-'     *',
-'     * @source grunt-wordpress',
-'     * @param obj',
-'     * @returns {*}',
-'     */',
-'    value: function createChecksum( obj ) {',
-'      var crypto = require( "crypto" );',
-'      var md5 = crypto.createHash( "md5" );',
-'      md5.update( this.flatten( obj ), "utf8" );',
-'      return md5.digest( "hex" );',
-'    },',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  parseURL: {',
-'    value: require( \'url\' ).parse,',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  getMime: {',
-'    value: require( \'mime\' ).lookup,',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  createClient: {',
-'    value: require( \'wordpress\' ).createClient,',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  toXML: {',
-'    /**',
-'     * @source wordpress-rpc/xml-rpc.js',
-'     *',
-'     * @param method',
-'     * @param parameter',
-'     * @param callback',
-'     * @returns {string}',
-'     */',
-'    value: function toXML( method, parameter, callback ) {',
-'',
-'      var ConvertXML = require( \'./convertXML\' );',
-'      var cXML = new ConvertXML();',
-'      var str = "";',
-'',
-'      function convertParams () {',
-'        var str = "<params>";',
-'',
-'        for (var i in parameter) {',
-'          str += cXML.solve(parameter[i]);',
-'        }',
-'',
-'        return str+"</params>";',
-'',
-'      }',
-'',
-'      str += \'<methodCall>\';',
-'      str += \'<methodName>\' + method + \'</methodName>\';',
-'      str += convertParams() + \'</methodCall>\';',
-'',
-'      return str;',
-'    },',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  },',
-'  fromXML: {',
-'    /**',
-'     *',
-'     * @source wordpress-rpc/xml-rpc.js',
-'     * @param xml',
-'     * @param callback',
-'     */',
-'    value: function fromXML( xml, callback ) {',
-'      var xml2js = require(\'xml2js\');',
-'      var ConvertJS = require(\'./convertJS.js\');',
-'',
-'      function doCallback(json){',
-'        var c = new ConvertJS();',
-'        json = c.solve(json);',
-'        callback(null, json);',
-'      }',
-'',
-'      new xml2js.Parser({explicitArray  : false, mergeAttrs : true}).addListener(\'end\', doCallback).parseString(xml);',
-'    },',
-'    enumerable: true,',
-'    configurable: true,',
-'    writable: true',
-'  }',
-'});',
-''];
-_$jscoverage['lib/common/index.js'][107]=0;
-_$jscoverage['lib/common/index.js'][1]=0;
-_$jscoverage['lib/common/index.js'][108]=0;
-_$jscoverage['lib/common/index.js'][8]=0;
-_$jscoverage['lib/common/index.js'][2]=0;
-_$jscoverage['lib/common/index.js'][109]=0;
-_$jscoverage['lib/common/index.js'][16]=0;
-_$jscoverage['lib/common/index.js'][112]=0;
-_$jscoverage['lib/common/index.js'][35]=0;
-_$jscoverage['lib/common/index.js'][34]=0;
-_$jscoverage['lib/common/index.js'][31]=0;
-_$jscoverage['lib/common/index.js'][30]=0;
-_$jscoverage['lib/common/index.js'][118]=0;
-_$jscoverage['lib/common/index.js'][39]=0;
-_$jscoverage['lib/common/index.js'][38]=0;
-_$jscoverage['lib/common/index.js'][111]=0;
-_$jscoverage['lib/common/index.js'][47]=0;
-_$jscoverage['lib/common/index.js'][46]=0;
-_$jscoverage['lib/common/index.js'][43]=0;
-_$jscoverage['lib/common/index.js'][42]=0;
-_$jscoverage['lib/common/index.js'][124]=0;
-_$jscoverage['lib/common/index.js'][48]=0;
-_$jscoverage['lib/common/index.js'][126]=0;
-_$jscoverage['lib/common/index.js'][52]=0;
-_$jscoverage['lib/common/index.js'][140]=0;
-_$jscoverage['lib/common/index.js'][71]=0;
-_$jscoverage['lib/common/index.js'][70]=0;
-_$jscoverage['lib/common/index.js'][69]=0;
-_$jscoverage['lib/common/index.js'][53]=0;
-_$jscoverage['lib/common/index.js'][144]=0;
-_$jscoverage['lib/common/index.js'][115]=0;
-_$jscoverage['lib/common/index.js'][72]=0;
-_$jscoverage['lib/common/index.js'][114]=0;
-_$jscoverage['lib/common/index.js'][122]=0;
-_$jscoverage['lib/common/index.js'][123]=0;
-_$jscoverage['lib/common/index.js'][141]=0;
-_$jscoverage['lib/common/index.js'][143]=0;
-_$jscoverage['lib/common/index.js'][145]=0;
-_$jscoverage['lib/common/index.js'][146]=0;
-_$jscoverage['lib/common/index.js'][149]=0;
-}_$jscoverage['lib/common/index.js'][1]++;
 'use strict';
-_$jscoverage['lib/common/index.js'][2]++;
-var util = require('util');
+var utils = require('../../lib/common/index');
 
-/**
- * Common Utility Methods
- *
- */
-_$jscoverage['lib/common/index.js'][8]++;
-Object.defineProperties( module.exports, {
-  is_numeric: {
-    /**
-     * Check if Value is Numeric
-     * @param input
-     * @returns {boolean}
-     */
-    value: function is_numeric( input ) {
-      _$jscoverage['lib/common/index.js'][16]++;
-return (input - 0) === input && (''+input).replace(/^\s+|\s+$/g, "").length > 0;
-    },
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  flatten: {
-    /**
-     *
-     * @source grunt-wordpress
-     * @param obj
-     * @returns {*}
-     */
-    value: function flatten( obj ) {
-      _$jscoverage['lib/common/index.js'][30]++;
-if ( obj == null ) {
-        _$jscoverage['lib/common/index.js'][31]++;
-return "";
-      }
+module.exports = {
+  'Common utils testing': {
 
-      _$jscoverage['lib/common/index.js'][34]++;
-if ( typeof obj === "string" ) {
-        _$jscoverage['lib/common/index.js'][35]++;
-return obj;
-      }
+    'is_number testing': {
+      'should be a number': {
 
-      _$jscoverage['lib/common/index.js'][38]++;
-if ( typeof obj === "number" ) {
-        _$jscoverage['lib/common/index.js'][39]++;
-return String( obj );
-      }
+        'String with number is number': function () {
+          utils.is_numeric("1").should.be.true;
+        },
 
-      _$jscoverage['lib/common/index.js'][42]++;
-if ( util.isDate( obj ) ) {
-        _$jscoverage['lib/common/index.js'][43]++;
-return obj.toGMTString();
-      }
+        'String number with plus sign is a number': function () {
+          utils.is_numeric("+1").should.be.true;
+        },
 
-      _$jscoverage['lib/common/index.js'][46]++;
-if ( Array.isArray( obj ) ) {
-        _$jscoverage['lib/common/index.js'][47]++;
-return obj.map(function( item ) {
-          _$jscoverage['lib/common/index.js'][48]++;
-return flatten( item );
-        }).join( "," );
-      }
+        'String number with minus sign is a number': function () {
+          utils.is_numeric("-1").should.be.true;
+        },
 
-      _$jscoverage['lib/common/index.js'][52]++;
-return Object.keys( obj ).sort().map(function( prop ) {
-        _$jscoverage['lib/common/index.js'][53]++;
-return prop + ":" + flatten( obj[ prop ] );
-      }).join( ";" );
+        'Zero is number': function () {
+          utils.is_numeric(0).should.be.true;
+        },
 
-    },
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  createChecksum: {
-    /**
-     *
-     * @source grunt-wordpress
-     * @param obj
-     * @returns {*}
-     */
-    value: function createChecksum( obj ) {
-      _$jscoverage['lib/common/index.js'][69]++;
-var crypto = require( "crypto" );
-      _$jscoverage['lib/common/index.js'][70]++;
-var md5 = crypto.createHash( "md5" );
-      _$jscoverage['lib/common/index.js'][71]++;
-md5.update( this.flatten( obj ), "utf8" );
-      _$jscoverage['lib/common/index.js'][72]++;
-return md5.digest( "hex" );
-    },
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  parseURL: {
-    value: require( 'url' ).parse,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  getMime: {
-    value: require( 'mime' ).lookup,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  createClient: {
-    value: require( 'wordpress' ).createClient,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  toXML: {
-    /**
-     * @source wordpress-rpc/xml-rpc.js
-     *
-     * @param method
-     * @param parameter
-     * @param callback
-     * @returns {string}
-     */
-    value: function toXML( method, parameter, callback ) {
+        'Number written in exponential notation is number': function () {
+          utils.is_numeric(12.3e-10).should.be.true;
+        },
 
-      _$jscoverage['lib/common/index.js'][107]++;
-var ConvertXML = require( './convertXML' );
-      _$jscoverage['lib/common/index.js'][108]++;
-var cXML = new ConvertXML();
-      _$jscoverage['lib/common/index.js'][109]++;
-var str = "";
+        'Float number is a number': function () {
+          utils.is_numeric(37.37).should.be.true;
+        },
 
-      _$jscoverage['lib/common/index.js'][111]++;
-function convertParams () {
-        _$jscoverage['lib/common/index.js'][112]++;
-var str = "<params>";
-
-        _$jscoverage['lib/common/index.js'][114]++;
-for (var i in parameter) {
-          _$jscoverage['lib/common/index.js'][115]++;
-str += cXML.solve(parameter[i]);
+        'Formatted number string with spaces is number': function () {
+          utils.is_numeric("10 000").should.be.true;
         }
+      },
 
-        _$jscoverage['lib/common/index.js'][118]++;
-return str+"</params>";
+      'should not be a number': {
+        'Empty string is not a number': function () {
+          utils.is_numeric("").should.be.false;
+        },
 
+        'NaN is not a number': function () {
+          utils.is_numeric(NaN).should.be.false;
+        },
+
+        'Undefined is not a number': function () {
+          utils.is_numeric(void 0).should.be.false;
+        },
+
+        'Array is not a number': function () {
+          utils.is_numeric([]).should.be.false;
+        },
+
+        'Object is not a number': function () {
+          utils.is_numeric({}).should.be.false;
+        },
+
+        'Date is not a number': function () {
+          utils.is_numeric(new Date()).should.be.false;
+        },
+
+        'String is not a number': function () {
+          utils.is_numeric("Some string").should.be.false;
+        },
+
+        'Infinity is not a number': function () {
+          utils.is_numeric(0 / 0).should.be.false;
+        }
       }
-
-      _$jscoverage['lib/common/index.js'][122]++;
-str += '<methodCall>';
-      _$jscoverage['lib/common/index.js'][123]++;
-str += '<methodName>' + method + '</methodName>';
-      _$jscoverage['lib/common/index.js'][124]++;
-str += convertParams() + '</methodCall>';
-
-      _$jscoverage['lib/common/index.js'][126]++;
-return str;
     },
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  fromXML: {
-    /**
-     *
-     * @source wordpress-rpc/xml-rpc.js
-     * @param xml
-     * @param callback
-     */
-    value: function fromXML( xml, callback ) {
-      _$jscoverage['lib/common/index.js'][140]++;
-var xml2js = require('xml2js');
-      _$jscoverage['lib/common/index.js'][141]++;
-var ConvertJS = require('./convertJS.js');
 
-      _$jscoverage['lib/common/index.js'][143]++;
-function doCallback(json){
-        _$jscoverage['lib/common/index.js'][144]++;
-var c = new ConvertJS();
-        _$jscoverage['lib/common/index.js'][145]++;
-json = c.solve(json);
-        _$jscoverage['lib/common/index.js'][146]++;
-callback(null, json);
+    'Flatten testing': {
+      'should return empty string': function () {
+        utils.flatten(null).should.be.exactly("");
+      },
+
+      'should return empty string for undefined': function () {
+        utils.flatten(void 0).should.be.exactly("");
+      },
+
+      'should return input string': function () {
+        utils.flatten("Simple string").should.be.exactly("Simple string");
+      },
+
+      'should return string for number': function () {
+        utils.flatten(123).should.be.exactly("123");
+      },
+
+      'should return string for date': function () {
+        var input = new Date("2014-07-16T00:00:00.000");
+        input.getFullYear().should.be.exactly(2014);
+        input.getDate().should.be.exactly(16);
+        input.getMonth().should.be.exactly(6);
+        utils.flatten(input).should.be.exactly("2014-07-16T00:00:00.000Z");
+      },
+
+      'should return string divided by coma for array': function () {
+        utils.flatten(["Val1", 123, "value 2", new Date("2013-11-10T00:00:00")]).should.be.exactly("Val1,123,value 2,2013-11-10T00:00:00.000Z");
+      },
+
+      'should return string divided by semicolon for nested object': function () {
+        var input = {
+          "key1": "string value",
+          "key2": 1234,
+          "key3": null,
+          "key4": new Date("2014-07-31T21:00:00"),
+          "key5": {
+            "sub5.1": "string value",
+            "sub5.2": 654,
+            "sub5.3": {},
+            "sub5.4": [],
+            "sub5.5": null,
+            "sub5.6": {
+              "subsub5.6.1": "string value"
+            }
+          }
+        };
+        var expect = "key1:string value;key2:1234;key3:;key4:2014-07-31T21:00:00.000Z;key5.sub5_1:string value;key5.sub5_2:654;key5.sub5_3:;key5.sub5_4:;key5.sub5_5:;key5.sub5_6.subsub5_6_1:string value";
+        utils.flatten(input).should.be.exactly(expect);
       }
-
-      _$jscoverage['lib/common/index.js'][149]++;
-new xml2js.Parser({explicitArray  : false, mergeAttrs : true}).addListener('end', doCallback).parseString(xml);
     },
-    enumerable: true,
-    configurable: true,
-    writable: true
+
+    'TypeOf testing': {
+      'should return array': function () {
+        utils.typeOf([]).should.be.exactly("array");
+      },
+
+      'should return object': function () {
+        utils.typeOf({}).should.be.exactly("object");
+      },
+
+      'should return string': function () {
+        utils.typeOf("").should.be.exactly("string");
+      },
+
+      'should return number': function () {
+        utils.typeOf(123).should.be.exactly("number");
+      },
+
+      'should return null': function () {
+        utils.typeOf(null).should.be.exactly("null");
+      },
+
+      'should return undefined': function () {
+        utils.typeOf(void 0).should.be.exactly("undefined");
+      },
+
+      'should return boolean': function () {
+        utils.typeOf(true).should.be.exactly("boolean");
+      },
+
+      'should return date': function () {
+        utils.typeOf(new Date()).should.be.exactly("object");
+      }
+    },
+
+    'To XML testing': {
+      'should return xml string for object': function () {
+        var expected =
+          "<methodCall>" +
+            "<methodName>method</methodName>" +
+            "<params>" +
+            "<string>string</string>" +
+            "<int>456</int>" +
+            "<struct>" +
+            "<member>" +
+            "<name>key1</name>" +
+            "<value>" +
+            "<string>string2</string>" +
+            "</value>" +
+            "</member>" +
+            "</struct>" +
+            "</params>" +
+            "</methodCall>";
+        utils.toXML('method', ['string', 456, { key1: "string2" }]).should.be.exactly(expected);
+      }
+    },
+
+    'Trim testing': {
+      'should trim array items': function () {
+        var input = [
+          '    Hello World',
+          'World   ',
+          '  testing   '
+        ];
+        utils.trim(input).should.be.eql(['Hello World', 'World', 'testing']);
+      },
+
+      'should return empty array if no input passed': function () {
+        utils.trim(void 0).should.be.eql([]);
+        utils.trim(null).should.be.eql([]);
+        utils.trim(true).should.be.eql([]);
+        utils.trim("Hello World").should.be.eql([]);
+      }
+    }
   }
-});
+};
