@@ -73,7 +73,7 @@
     "load-grunt-tasks": "~0.5.0",
     "lodash": "~2.4.1",
     "mime": "~1.2.11",
-    "nock": "^0.36.2",
+    "nock": "~0.36.2",
     "object-emitter": "0.0.5",
     "object-settings": "~0.1.2",
     "q": "1.0.1",
