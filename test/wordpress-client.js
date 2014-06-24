@@ -24,7 +24,10 @@ module.exports = {
           .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><string>28</string></value></param></params></methodResponse>')
           .post('/xmlrpc.php', fs.readFileSync('test/fixtures/uploadFile.xml', { encoding: 'utf8' }))
           .times(10000)
-          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><struct><member><name>id</name><value><string>62</string></value></member><member><name>file</name><value><string>image.jpg</string></value></member><member><name>url</name><value><string>http://test.com/wp-content/uploads/image.jpg</string></value></member><member><name>type</name><value><string>image/jpeg</string></value></member></struct></value></param></params></methodResponse>');
+          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><struct><member><name>id</name><value><string>62</string></value></member><member><name>file</name><value><string>image.jpg</string></value></member><member><name>url</name><value><string>http://test.com/wp-content/uploads/image.jpg</string></value></member><member><name>type</name><value><string>image/jpeg</string></value></member></struct></value></param></params></methodResponse>')
+          .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value><string>test</string></value></param><param><value><string>test</string></value></param></params></methodCall>')
+          .times(10000)
+          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>isAdmin</name><value><boolean>1</boolean></value></member><member><name>url</name><value><string>http://test.com/</string></value></member><member><name>blogid</name><value><string>1</string></value></member><member><name>blogName</name><value><string>test</string></value></member><member><name>xmlrpc</name><value><string>http://test.com//xmlrpc.php</string></value></member></struct></value></data></array></value></param></params></methodResponse>');
       },
 
       'should connect and return list of methods': function (done) {
@@ -135,6 +138,26 @@ module.exports = {
             (response.id === 62).should.be.true;
             (response.url === "http://test.com/wp-content/uploads/image.jpg").should.be.true;
             (response.type === "image/jpeg").should.be.true;
+            done();
+          });
+        });
+      },
+
+      'blog detection when it has not been passed with arguments': function (done) {
+        wp.create({
+          url: 'http://test.com',
+          username: 'test',
+          password: 'test'
+        }).once('connected', function (err, that) {
+          that.detectBlog(function (err, blog) {
+            blog.blogid.should.be.exactly("1");
+            blog.blogName.should.be.exactly("test");
+            blog.url.should.be.exactly("http://test.com/");
+            //blog.xmlrpc.should.be.exactly("http://test.com/xmlrpc.php");
+
+            this.get("blog").should.be.exactly(1);
+            this.get("blogId").should.be.exactly(1);
+            this.__client.blogId.should.be.exactly(1);
             done();
           });
         });
