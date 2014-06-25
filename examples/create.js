@@ -1,8 +1,18 @@
-var client = module.exports = require( '../' ).create({
-  url:      process.env.WORDPRESS_URL,
+var client = module.exports = require('../').create({
+  url: process.env.WORDPRESS_URL,
   username: process.env.WORDPRESS_USERNAME,
   password: process.env.WORDPRESS_PASSWORD
 });
+
+/**
+ * Insertion Callback.
+ *
+ * @param error
+ * @param data
+ */
+function insertCallback(error, data) {
+  console.log(require('util').inspect(error ? error.message : data, { showHidden: true, colors: true, depth: 2 }));
+}
 
 // Create New Post.
 client.insertPost({
@@ -32,12 +42,12 @@ client.insertPost({
     category: [ 'Awesome Category', 'Another Category' ],
     post_tag: [ 'Chicago' ]
   }
-}, insertCallback );
+}, insertCallback);
 
 // Update Existing Post.
 client.insertPost({
   ID: 1,
-  if_not_modified_since: new Date( ( new Date ).getTime() - ( 60 * 1000 ) ),
+  if_not_modified_since: new Date(( new Date() ).getTime() - ( 60 * 1000 )),
   post_type: 'post',
   post_status: 'draft',
   post_title: 'Test Post',
@@ -64,12 +74,12 @@ client.insertPost({
     category: [ 'Awesome Category', 'Another Category' ],
     post_tag: [ 'Chicago' ]
   }
-}, insertCallback );
+}, insertCallback);
 
 // Update non-existing post, should fail.
 client.insertPost({
   ID: 23432324321,
-  if_not_modified_since: new Date( ( new Date ).getTime() - ( 60 * 1000 ) ),
+  if_not_modified_since: new Date(( new Date() ).getTime() - ( 60 * 1000 )),
   post_type: 'post',
   post_status: 'draft',
   post_title: 'Test Post',
@@ -96,15 +106,5 @@ client.insertPost({
     category: [ 'Awesome Category', 'Another Category' ],
     post_tag: [ 'Chicago' ]
   }
-}, insertCallback );
-
-/**
- * Insertion Callback.
- *
- * @param error
- * @param data
- */
-function insertCallback( error, data ) {
-  console.log( require( 'util' ).inspect( error ? error.message : data, { showHidden: true, colors: true, depth: 2 } ) )
-}
+}, insertCallback);
 
