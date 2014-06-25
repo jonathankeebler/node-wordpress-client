@@ -3,6 +3,6 @@ machine:
     version: 0.10.28
 dependencies:
   pre:
-    - npm install --dev
+    - npm install
   override:
     - npm i
