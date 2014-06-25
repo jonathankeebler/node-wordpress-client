@@ -1,15 +1,15 @@
-objectives:
+Objectives:
   - "The goal of this module is to serve as a general utility for interfacting with a WordPress client over XML-RPC."
   - "Instance methods resemble WordPress functions used in PHP development, although conform to camel case naming conventions."
 
-features:
+Features:
   - "Connect to WordPress site over XML-RPC and pull available methods using listMethods()."
   - "Automatically batch XML-RPC calls and attempt to process in batches using multiCall()"
   - "Authenticated vs non-authenticated calls are automatically selected based on type of RPC action."
   - "Request and response objects are automatically converted between JSON and XML-RPC structures."
   - "Environment variables WORDPRESS_URL, WORDPRESS_USERNAME and WORDPRESS_PASSWORD are used as defaults for new instances."
 
-methods:
+Methods:
   - "module.create()"
   - "module.validateLogin()"
   - "module.prototype.validateLogin()"
