@@ -69,7 +69,7 @@
     "hooker": "~0.2.3",
     "lodash": "~2.4.1",
     "mime": "~1.2.11",
-    "nock": "~0.37.0",
+    "nock": "^0.38.0",
     "object-emitter": "0.0.5",
     "object-settings": "~0.2.0",
     "q": "1.0.1",
