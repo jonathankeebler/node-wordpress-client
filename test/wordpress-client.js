@@ -23,6 +23,9 @@ module.exports = {
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params/></methodCall>')
           .times(10000)
           .reply(200, fs.readFileSync(path.join(__dirname, 'fixtures', 'listMethods.xml'), { encoding: 'utf8' }))
+          .post('/wordpress/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params/></methodCall>')
+          .times(10000)
+          .reply(200, fs.readFileSync(path.join(__dirname, 'fixtures', 'listMethods.xml'), { encoding: 'utf8' }))
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>system.fail</methodName><params/></methodCall>')
           .times(10000)
           .reply(404)
@@ -34,7 +37,10 @@ module.exports = {
           .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><struct><member><name>id</name><value><string>62</string></value></member><member><name>file</name><value><string>image.jpg</string></value></member><member><name>url</name><value><string>http://test.com/wp-content/uploads/image.jpg</string></value></member><member><name>type</name><value><string>image/jpeg</string></value></member></struct></value></param></params></methodResponse>')
           .post('/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value><string>test</string></value></param><param><value><string>test</string></value></param></params></methodCall>')
           .times(10000)
-          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>isAdmin</name><value><boolean>1</boolean></value></member><member><name>url</name><value><string>http://test.com/</string></value></member><member><name>blogid</name><value><string>1</string></value></member><member><name>blogName</name><value><string>test</string></value></member><member><name>xmlrpc</name><value><string>http://test.com//xmlrpc.php</string></value></member></struct></value></data></array></value></param></params></methodResponse>');
+          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>isAdmin</name><value><boolean>1</boolean></value></member><member><name>url</name><value><string>http://test.com/</string></value></member><member><name>blogid</name><value><string>1</string></value></member><member><name>blogName</name><value><string>test</string></value></member><member><name>xmlrpc</name><value><string>http://test.com//xmlrpc.php</string></value></member></struct></value></data></array></value></param></params></methodResponse>')
+          .post('/wordpress/xmlrpc.php', '<?xml version="1.0"?><methodCall><methodName>wp.getUsersBlogs</methodName><params><param><value><string>test</string></value></param><param><value><string>test</string></value></param></params></methodCall>')
+          .times(10000)
+          .reply(200, '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param><value><array><data><value><struct><member><name>isAdmin</name><value><boolean>1</boolean></value></member><member><name>url</name><value><string>http://test.com/wordpress/</string></value></member><member><name>blogid</name><value><string>1</string></value></member><member><name>blogName</name><value><string>test</string></value></member><member><name>xmlrpc</name><value><string>http://test.com/wordpress/xmlrpc.php</string></value></member></struct></value></data></array></value></param></params></methodResponse>');
 
         nock('http://errors.com')
           .defaultReplyHeaders({
@@ -200,6 +206,17 @@ module.exports = {
           err.faultString.should.be.exactly("Incorrect username or password.");
           err.code.should.be.exactly(403);
           err.faultCode.should.be.exactly(403);
+          done();
+        });
+      },
+
+      'query to subdir': function (done) {
+        wp.create({
+          url: 'http://test.com/wordpress',
+          username: 'test',
+          password: 'test'
+        }).once('connected', function (err, that) {
+          (err === null).should.be.true;
           done();
         });
       }
